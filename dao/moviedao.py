@@ -5,13 +5,20 @@ class MovieDAO:
     def __init__(self, session):
         self.session = session
 
+    def filter_year(self, year):
+        return self.session.query(Movie).filter(Movie.year == year)
+
+    def filter_dir(self, pk):
+        return self.session.query(Movie).filter(Movie.director_id == pk)
+
+    def filter_genre(self, pk):
+        return self.session.query(Movie).filter(Movie.genre_id == pk)
+
     def get_one(self, pk):
         return self.session.query(Movie).get(pk)
 
-
     def get_all(self):
         return self.session.query(Movie).all()
-
 
     def create(self, data):
         obj = Movie(**data)
@@ -24,7 +31,6 @@ class MovieDAO:
         obj = self.get_one(pk)
         self.session.delete(obj)
         self.session.commit()
-
 
     def update(self, pk, data):
         obj = self.get_one(pk)

@@ -8,6 +8,6 @@ class Genre(db.Model):
     name = db.Column(db.String(255))
 
 
-class GenrerSchema(Schema):
+class GenreSchema(Schema):
     id = fields.Int()
     name = fields.Str()

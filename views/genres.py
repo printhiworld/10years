@@ -1,30 +1,30 @@
-from flask_restx import Api, Resource, Namespace
-from impl import genre_servise
-from dao.models.genres import GenrerSchema
+from flask_restx import Resource, Namespace
+from impl import genre_service
+from dao.models.genres import GenreSchema
 from flask import request
 genre_ns = Namespace('genres')
 
 @genre_ns.route('/')
 class GenresView(Resource):
     def get(self):
-        objs = genre_servise.get_all()
-        return GenrerSchema(many=True).dump(objs)
+        objs = genre_service.get_all()
+        return GenreSchema(many=True).dump(objs), 200
 
     def post(self):
-        obj = genre_servise.create(request.json)
-        return GenrerSchema().dump(obj), 201, {'location':f'/genre/{obj.id}'}
+        obj = genre_service.create(request.json)
+        return GenreSchema().dump(obj), 201, {'location':f'/genre/{obj.id}'}
 
 
 @genre_ns.route('/<int:pk>')
 class GenreView(Resource):
     def get(self, pk):
-        obj = genre_servise.get_one(pk)
-        return GenrerSchema().dump(obj)
+        obj = genre_service.get_one(pk)
+        return GenreSchema().dump(obj), 200
 
     def delete(self, pk):
-        genre_servise.delete(pk)
-        return 'удалено'
+        genre_service.delete(pk)
+        return 'удалено', 204
 
     def update(self, pk):
-        obj = genre_servise.update(pk, request.json)
-        return GenrerSchema().dump(obj)
+        obj = genre_service.update(pk, request.json)
+        return GenreSchema().dump(obj), 200

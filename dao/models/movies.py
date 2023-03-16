@@ -1,5 +1,6 @@
 from setup_db import db
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate
+
 
 class Movie(db.Model):
     __tablename__ = 'movie'
@@ -20,5 +21,5 @@ class MovieSchema(Schema):
     title = fields.Str()
     description = fields.Str()
     trailer = fields.Str()
-    year = fields.Int()
+    year = fields.Int(validate=validate.Range(min=1900, max=2030))
     rating = fields.Float()
